@@ -18,8 +18,11 @@ jobs:
       - name: Install wrangler
         run: npm install
 
+      - name: Inject account_id into wrangler.toml
+        run: |
+          echo 'account_id = "${{ secrets.CLOUDFLARE_ACCOUNT_ID }}"' >> wrangler.toml
+
       - name: Deploy Worker
-        run: npx wrangler deploy --name velib-proxy --account-id $CLOUDFLARE_ACCOUNT_ID
+        run: npx wrangler deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
